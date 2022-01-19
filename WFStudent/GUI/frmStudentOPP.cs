@@ -14,6 +14,8 @@ namespace WFStudent.GUI
     public partial class frmStudentOPP : Form
     {
         string StrConn;
+        DataTable dt = new DataTable();
+        DataTable dt1 = new DataTable();
         
         DAL.clsStudent student;
         public frmStudentOPP()
@@ -24,12 +26,12 @@ namespace WFStudent.GUI
         public frmStudentOPP(string strConn)
         {
             InitializeComponent();
+            student = new DAL.clsStudent();
             StrConn = strConn;
             load();
         }
         private void btnAdd_Click(object sender, EventArgs e)
-        {
-            student = new DAL.clsStudent();
+        {            
             student.StudentID = txtStudentID.Text;
             student.StudentName = txtStudentName.Text;
             student.AddressStudent = txtStudentAddress.Text;
@@ -52,14 +54,60 @@ namespace WFStudent.GUI
                 Conn.ConnectionString = StrConn;
                 Conn.Open();
             }
-            SqlCommand sqlCom = new SqlCommand();
-            sqlCom.CommandText = "spSelectAllStutent";
-            sqlCom.Connection = Conn;
-            sqlCom.CommandType = CommandType.StoredProcedure;
-            SqlDataAdapter da = new SqlDataAdapter(sqlCom);
-            System.Data.DataTable dt = new DataTable();
-            da.Fill(dt);
+            dt= student.SelectAllStudent(StrConn);
             dgvStudent.DataSource = dt;
+
+            LoadDataBiding();
         }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            dt = student.SelectStudent(StrConn, txtSearch.Text);
+            dgvStudent.DataSource =dt ;
+            LoadDataBiding();
+        }
+
+        void LoadDataBiding()
+        {
+            txtNote.DataBindings.Clear();
+            txtStudentAddress.DataBindings.Clear();
+            txtStudentName.DataBindings.Clear();
+            txtStudentAddress.DataBindings.Clear();
+            txtStudentID.DataBindings.Clear();
+            txtNote.DataBindings.Add("Text", dt, "Note");
+            txtStudentID.DataBindings.Add("Text", dt, "StudentID");
+            txtStudentName.DataBindings.Add("Text",dt,"StudentName");
+            txtStudentAddress.DataBindings.Add("Text",dt,"AddressStudent");
+        }
+
+        private void dgvStudent_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //int i = dgvStudent.CurrentCell.RowIndex;
+            //txtNote.Text = dgvStudent.Rows[i].Cells["Note"].Value.ToString();
+            //txtStudentAddress.Text = dgvStudent.Rows[i].Cells["StudentAddress"].Value.ToString();
+        }
+
+        private void dgvStudent_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
+            int i = dgvStudent.CurrentCell.RowIndex;
+            string[] a = { dgvStudent.Rows[i].Cells["StudentID"].Value.ToString(),
+            dgvStudent.Rows[i].Cells["StudentName"].Value.ToString()};
+            //txtNote.Text = dgvStudent.Rows[i].Cells["Note"].Value.ToString();
+            //txtStudentAddress.Text = dgvStudent.Rows[i].Cells["StudentAddress"].Value.ToString();
+            GUI.JumFormStudent frm = new JumFormStudent(a);
+            frm.ShowDialog();
+        }
+        //void LoadDataBiding1()
+        //{
+        //    txtNote.DataBindings.Clear();
+        //    txtStudentAddress.DataBindings.Clear();
+        //    txtStudentName.DataBindings.Clear();
+        //    txtStudentAddress.DataBindings.Clear();
+        //    txtNote.DataBindings.Add("Text", dt1, "Note");
+        //    txtStudentID.DataBindings.Add("Text", dt1, "StudentID");
+        //    txtStudentName.DataBindings.Add("Text", dt1, "StudentName");
+        //    txtStudentAddress.DataBindings.Add("Text", dt1, "AddressStudent");
+        //}
     }
 }

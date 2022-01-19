@@ -16,6 +16,8 @@ namespace WFStudent.Interface
         int AddNewStudent(string StrConn);
         int UpdateStudent(string StrConn);
         int DeleteStudent(string StrConn);
+        System.Data.DataTable SelectStudent(string StrConn,string _studentName);
+        System.Data.DataTable SelectAllStudent(string StrConn);
 
         //IStudent Search(string name);//1 sv
 

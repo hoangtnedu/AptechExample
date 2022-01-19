@@ -63,15 +63,16 @@ namespace WFStudent.GUI
                 Conn.ConnectionString = StrCon;
                 Conn.Open();
             }
+
             SqlCommand sqlCom = new SqlCommand();
             sqlCom.CommandText = "spSelectAllStutent";
             sqlCom.Connection = Conn;
             sqlCom.CommandType = CommandType.StoredProcedure;
             SqlDataAdapter da = new SqlDataAdapter(sqlCom);
             System.Data.DataTable dt = new DataTable();
-              da.Fill(dt);
+            da.Fill(dt);
             dgvStudent.DataSource = dt;
-            
+
         }
     }
 }

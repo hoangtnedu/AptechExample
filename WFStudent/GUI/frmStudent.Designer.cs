@@ -130,9 +130,9 @@ namespace WFStudent.GUI
             // dgvStudent
             // 
             this.dgvStudent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvStudent.Location = new System.Drawing.Point(444, 61);
+            this.dgvStudent.Location = new System.Drawing.Point(404, 4);
             this.dgvStudent.Name = "dgvStudent";
-            this.dgvStudent.Size = new System.Drawing.Size(259, 166);
+            this.dgvStudent.Size = new System.Drawing.Size(328, 253);
             this.dgvStudent.TabIndex = 10;
             // 
             // frmStudent

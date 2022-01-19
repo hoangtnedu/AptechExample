@@ -69,9 +69,9 @@ namespace WFStudent.DAL
             Comm.CommandText = "spInsert2Student";
             Comm.CommandType = CommandType.StoredProcedure;
             Comm.Parameters.AddWithValue("@StudentId", StudentID);
-            Comm.Parameters.AddWithValue("@StudentName",StudentName);
-            Comm.Parameters.AddWithValue("@AddressStudent",AddressStudent);
-            Comm.Parameters.AddWithValue("@Note",Note);
+            Comm.Parameters.AddWithValue("@StudentName", StudentName);
+            Comm.Parameters.AddWithValue("@AddressStudent", AddressStudent);
+            Comm.Parameters.AddWithValue("@Note", Note);
             try
             {
                 Comm.ExecuteNonQuery();
@@ -82,7 +82,7 @@ namespace WFStudent.DAL
 
                 check = -1;
             }
-            return check ;
+            return check;
         }
         /// <summary>
         /// Update a record
@@ -91,7 +91,7 @@ namespace WFStudent.DAL
         /// <returns></returns>
         public int UpdateStudent(string StrConn)
         {
-            int check=0;         
+            int check = 0;
             if (Conn == null || Conn.State == ConnectionState.Closed)
             {
                 Conn = new SqlConnection(StrConn);
@@ -117,12 +117,49 @@ namespace WFStudent.DAL
                 check = -1;
             }
             return check;
-            
+
         }
-        public  int DeleteStudent(string StrConn)
+        public int DeleteStudent(string StrConn)
         {
             int check = 0;
             return check;
+        }
+
+        public System.Data.DataTable SelectStudent(string StrConn,string _studentName)
+        {
+            DataTable dt = new DataTable();
+            
+            if (Conn == null || Conn.State == ConnectionState.Closed)
+            {
+                Conn = new SqlConnection(StrConn);
+                Conn.Open();
+            }
+            Comm = new SqlCommand();
+            Comm.Connection = Conn;
+            Comm.CommandText = "spSelectStudentByName";
+            Comm.CommandType = CommandType.StoredProcedure;
+            Comm.Parameters.AddWithValue("@StudentName",_studentName);
+            SqlDataAdapter da = new SqlDataAdapter(Comm);
+            da.Fill(dt);
+            return dt;
+        }
+
+        public DataTable SelectAllStudent(string StrConn)
+        {
+            DataTable dt = new DataTable ();
+
+            if (Conn == null || Conn.State == ConnectionState.Closed)
+            {
+                Conn = new SqlConnection(StrConn);
+                Conn.Open();
+            }
+            Comm = new SqlCommand();
+            Comm.Connection = Conn;
+            Comm.CommandText = "spSelectAllStutent";
+            Comm.CommandType = CommandType.StoredProcedure;            
+            SqlDataAdapter da = new SqlDataAdapter(Comm);
+            da.Fill(dt);
+            return dt;
         }
         #endregion
 
